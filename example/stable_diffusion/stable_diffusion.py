@@ -51,7 +51,7 @@ class StableDiffusionV2:
             model_id, scheduler=scheduler, torch_dtype=torch.float16
         )
         self.pipe = self.pipe.to("cuda")
-        self.pipe.enable_attention_slicing()
+        # self.pipe.enable_attention_slicing()
 
     def generate(self, prompt: str, img_size: int = 512):
         assert len(prompt), "prompt parameter cannot be empty"

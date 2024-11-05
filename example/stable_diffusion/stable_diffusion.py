@@ -30,13 +30,13 @@ class APIIngress:
 
 @serve.deployment(
     ray_actor_options={"num_gpus": 1},
-    # autoscaling_config={
-    #     "min_replicas": int(os.environ.get("MIN_REPLICAS", 1)),
-    #     "max_replicas": int(os.environ.get("MAX_REPLICAS", 1)),
-    #     "target_num_ongoing_requests_per_replica": 1,
-    #     "upscale_delay_s": 10,
-    #     "downscale_delay_s": 60,
-    # },
+    autoscaling_config={
+        "min_replicas": int(os.environ.get("MIN_REPLICAS", 1)),
+        "max_replicas": int(os.environ.get("MAX_REPLICAS", 1)),
+        "target_num_ongoing_requests_per_replica": 1,
+        "upscale_delay_s": 10,
+        "downscale_delay_s": 60,
+    },
 )
 class StableDiffusionV2:
     def __init__(self):

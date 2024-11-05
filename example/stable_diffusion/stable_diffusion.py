@@ -8,7 +8,7 @@ from ray import serve
 
 app = FastAPI()
 
-@serve.deployment(num_replicas=int(os.environ.get("MIN_REPLICAS", 1)), route_prefix="/")
+@serve.deployment(num_replicas=1, route_prefix="/")
 @serve.ingress(app)
 class APIIngress:
     def __init__(self, diffusion_model_handle) -> None:

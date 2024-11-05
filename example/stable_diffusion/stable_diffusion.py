@@ -34,8 +34,8 @@ class APIIngress:
         "min_replicas": int(os.environ.get("MIN_REPLICAS", 1)),
         "max_replicas": int(os.environ.get("MAX_REPLICAS", 1)),
         "target_num_ongoing_requests_per_replica": 1,
-        "upscale_delay_s": 10,
-        "downscale_delay_s": 60,
+        "upscale_delay_s": 5,
+        "downscale_delay_s": 30,
     },
 )
 class StableDiffusionV2:
@@ -48,9 +48,10 @@ class StableDiffusionV2:
             model_id, subfolder="scheduler"
         )
         self.pipe = StableDiffusionPipeline.from_pretrained(
-            model_id, scheduler=scheduler, revision="fp16", torch_dtype=torch.float16
+            model_id, scheduler=scheduler, torch_dtype=torch.float16
         )
         self.pipe = self.pipe.to("cuda")
+        self.pipe.enable_attention_slicing()
 
     def generate(self, prompt: str, img_size: int = 512):
         assert len(prompt), "prompt parameter cannot be empty"

@@ -1,4 +1,3 @@
-import os
 from io import BytesIO
 from fastapi import FastAPI
 from fastapi.responses import Response
@@ -28,7 +27,7 @@ class APIIngress:
         return Response(content=file_stream.getvalue(), media_type="image/png")
 
 
-@serve.deployment()
+@serve.deployment(ray_actor_options={"num_gpus": 1},)
 class StableDiffusionV2:
     def __init__(self):
         from diffusers import EulerDiscreteScheduler, StableDiffusionPipeline

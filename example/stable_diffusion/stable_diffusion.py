@@ -24,9 +24,7 @@ class APIIngress:
         # Get Ray worker metadata
         runtime_context = ray.get_runtime_context()
         worker_metadata = {
-            "worker_id": runtime_context.worker_id,
-            "node_id": runtime_context.node_id,
-            "job_id": runtime_context.job_id,
+            "node_id": runtime_context.node_id
         }
 
         # Generate image
@@ -37,9 +35,7 @@ class APIIngress:
 
         # Prepare custom headers with metadata
         headers = {
-            "X-Ray-Worker-Id": worker_metadata["worker_id"],
-            "X-Ray-Node-Id": worker_metadata["node_id"],
-            "X-Ray-Job-Id": worker_metadata["job_id"],
+            "X-Ray-Node-Id": worker_metadata["node_id"]
         }
 
         return Response(

@@ -4,8 +4,19 @@ from fastapi.responses import Response
 import torch
 from ray import serve
 import ray
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Add CORS middleware to the FastAPI app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins; replace with specific domains if needed
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 @serve.deployment()
 @serve.ingress(app)

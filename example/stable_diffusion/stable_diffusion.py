@@ -24,7 +24,7 @@ class APIIngress:
         # Get Ray worker metadata
         runtime_context = ray.get_runtime_context()
         worker_metadata = {
-            "node_id": runtime_context.node_id
+            "node_id": str(runtime_context.node_id)
         }
 
         # Generate image

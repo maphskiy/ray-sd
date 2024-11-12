@@ -2,8 +2,8 @@ from io import BytesIO
 from fastapi import FastAPI
 from fastapi.responses import Response
 import torch
-
 from ray import serve
+import ray
 
 app = FastAPI()
 

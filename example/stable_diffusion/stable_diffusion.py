@@ -50,7 +50,7 @@ class StableDiffusionV2:
     def __init__(self):
         from diffusers import EulerDiscreteScheduler, StableDiffusionPipeline
 
-        model_id = "stabilityai/stable-diffusion-x1"
+        model_id = "stabilityai/stable-diffusion-2"
 
         scheduler = EulerDiscreteScheduler.from_pretrained(
             model_id, subfolder="scheduler"

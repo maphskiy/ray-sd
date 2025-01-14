@@ -4,7 +4,6 @@ from fastapi.responses import Response
 import torch
 from ray import serve
 import ray
-from diffusers import DiffusionPipeline
 
 app = FastAPI()
 
@@ -49,10 +48,18 @@ class APIIngress:
 @serve.deployment(ray_actor_options={"num_gpus": 1},)
 class StableDiffusionV2:
     def __init__(self):
+        from diffusers import EulerDiscreteScheduler, StableDiffusionPipeline
 
-        self.pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-xl-base-1.0")
+        model_id = "stabilityai/stable-diffusion-2"
+
+        scheduler = EulerDiscreteScheduler.from_pretrained(
+            model_id, subfolder="scheduler"
+        )
+        self.pipe = StableDiffusionPipeline.from_pretrained(
+            model_id, scheduler=scheduler, revision="fp16", torch_dtype=torch.float16
+        )
         self.pipe = self.pipe.to("cuda")
-        # self.pipe.enable_attention_slicing()
+        self.pipe.enable_attention_slicing()
 
     def generate(self, prompt: str, img_size: int = 512):
         assert len(prompt), "prompt parameter cannot be empty"
